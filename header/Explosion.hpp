@@ -16,7 +16,7 @@ private:
     unsigned short int _tick;
 
 public:
-    Explosion(sf::Color col, sf::Vector2f pos);
+    Explosion(sf::Vector2f pos, sf::Color col);
 
     ~Explosion();
 

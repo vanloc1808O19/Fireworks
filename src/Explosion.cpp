@@ -36,6 +36,10 @@ sf::Vector2f Explosion::getPosition() {
     return this->_position;
 }
 
+void Explosion::setColor(sf::Color col) {
+    this->_color = col;
+}
+
 bool Explosion::poll() {
     if(this->_color.a - this->_alphaSub <= 0 || this->_tick >= 50) {
         return false;

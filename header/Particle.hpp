@@ -1,5 +1,5 @@
-#ifndef _PARTICLE_HPP_
-#define _PARTICLE_HPP_
+#ifndef _PARTICLE_H_
+#define _PARTICLE_H_
 
 #include <SFML/Graphics.hpp>
 
@@ -24,4 +24,4 @@ public:
     bool poll();
 };
 
-#endif // _PARTICLE_HPP_
+#endif // _PARTICLE_H_

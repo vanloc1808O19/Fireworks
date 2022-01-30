@@ -19,7 +19,9 @@ public:
     ~Particle();
 
     sf::Color getColor();
+
     sf::Vector2f getPosition();
+    
     bool poll();
 };
 

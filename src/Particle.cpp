@@ -37,5 +37,7 @@ bool Particle::poll() {
         this->_color.a = 200;
     }
 
+    this->_tick++;
+
     return true;
 }

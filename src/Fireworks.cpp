@@ -17,7 +17,13 @@ Firework::Firework(std::vector<Particle*> *p) {
 }
 
 Firework::~Firework() {
-    
+    for (int i = 0; i < this->_particles->size(); i++) {
+        delete this->_particles->at(i);
+        this->_particles->at(i) = nullptr;
+    }
+
+    delete this->_particles;
+    this->_particles = nullptr;
 }
 
 sf::Color Firework::getColor() {

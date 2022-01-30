@@ -69,34 +69,34 @@ int main () {
 
         if (pollTimer.getElapsedTime().asMilliseconds() >= 50) {
             for (std::vector<Particle*>::iterator it = particles.begin(); it != particles.end();) {
-                if((*it)->poll() == false) {
+                if ((*it)->poll() == false) {
                     delete *it;
                     it = particles.erase(it);
+                } else {
+					++it;
                 }
-					 else
-						 ++it;
             }
 
-            for( std::vector<Firework*>::iterator it = fireworks.begin(); it != fireworks.end();) {
-                if((*it)->poll() == false) {
+            for (std::vector<Firework*>::iterator it = fireworks.begin(); it != fireworks.end();) {
+                if ((*it)->poll() == false) {
                     for(int i = 0; i < 50; i++)
                         explosions.push_back(new Explosion((*it)->getPosition(),(*it)->getColor()));
 
                     delete *it;
                     it = fireworks.erase(it);
-                }
-					 else
-						++it;
+                } else {
+                    ++it;
+                }						
             }
 
-            for( std::vector<Explosion*>::iterator it = explosions.begin(); it != explosions.end();) {
-                if((*it)->poll() == false) {
+            for (std::vector<Explosion*>::iterator it = explosions.begin(); it != explosions.end();) {
+                if ((*it)->poll() == false) {
                     particles.push_back(new Particle((*it)->getPosition(),(*it)->getColor()));
                     delete *it;
                     it = explosions.erase(it);
-                }
-					 else
-						 ++it;
+                } else {
+                    ++it;
+                }						 
             }
 
             pollTimer.restart();

@@ -1,6 +1,7 @@
 # Fireworks
 2022 Lunar New Year is coming!  
 In order to celebrate it, I tried to write a simple program for stimulating fireworks.  
+This is a simple program using OOP and SFML.
 
 # Build
 There is already a release for this project on GitHub.  

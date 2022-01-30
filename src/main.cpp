@@ -6,116 +6,104 @@
 #include "../header/Particle.hpp"
 #include "../header/Explosion.hpp"
 
-int main ( int argc, char* argv[] )
-{
-    srand( time(NULL) );
-    sf::RenderWindow App(sf::VideoMode(800,600,32),"Happy Lunar New Year!");
-    sf::Event AppEvent;
+int main () {
+    srand(time(nullptr));
 
-    std::vector<Firework*> Fireworks;
-    std::vector<Particle*> Particles;
-    std::vector<Explosion*> Explosions;
+    sf::RenderWindow window(sf::VideoMode(800,600,32),"Happy Lunar New Year!");
 
-    sf::RectangleShape RectShape;
-    RectShape.setSize(sf::Vector2f(2,2));
+    sf::Event event;
 
-    sf::Clock Polltimer;
+    std::vector<Firework*> fireworks;
+    std::vector<Particle*> particles;
+    std::vector<Explosion*> explosions;
 
-    while(App.isOpen())
-    {
-        while(App.pollEvent(AppEvent))
-        {
-            switch(AppEvent.type)
-            {
-            case sf::Event::Closed:
-                App.close();
-                break;
-            case sf::Event::KeyPressed:
-                switch(AppEvent.key.code)
-                {
-                case sf::Keyboard::Escape:
-                    App.close();
-                    break;
-                default:
-                    break;
+    sf::RectangleShape rect;
+    rect.setSize(sf::Vector2f(2,2));
+
+    sf::Clock pollTimer;
+
+    while(window.isOpen()) {
+        while(window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            } else if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::Escape) {
+                    window.close();
                 }
-                break;
-            case sf::Event::MouseButtonPressed:
-                switch(AppEvent.mouseButton.button)
-                {
-                case sf::Mouse::Left:
-                    Fireworks.push_back(new Firework(&Particles));
-                    break;
-                default:
-                    break;
+            } else if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    fireworks.push_back(new Firework(&particles));
                 }
-                break;
-            default:
-                break;
             }
         }
 
-        App.clear(sf::Color(0,0,0));
-        RectShape.setSize(sf::Vector2f(1,1));
-        for( std::vector<Particle*>::iterator it = Particles.begin(); it != Particles.end(); ++it )
-        {
-            RectShape.setFillColor((*it)->getColor());
-            RectShape.setPosition((*it)->getPosition());
-            App.draw(RectShape);
+        window.clear(sf::Color(0,0,0));
+
+        rect.setSize(sf::Vector2f(1,1));
+
+        for (std::vector<Particle*>::iterator it = particles.begin(); it != particles.end(); ++it) {
+            rect.setFillColor((*it)->getColor());
+
+            rect.setPosition((*it)->getPosition());
+
+            window.draw(rect);
         }
-        RectShape.setSize(sf::Vector2f(2,2));
-        for(std::vector<Explosion*>::iterator it = Explosions.begin(); it != Explosions.end(); ++it )
-        {
-            RectShape.setFillColor((*it)->getColor());
-            RectShape.setPosition((*it)->getPosition());
-            App.draw(RectShape);
+
+        rect.setSize(sf::Vector2f(2,2));
+
+        for (std::vector<Explosion*>::iterator it = explosions.begin(); it != explosions.end(); ++it) {
+            rect.setFillColor((*it)->getColor());
+
+            rect.setPosition((*it)->getPosition());
+
+            window.draw(rect);
         }
-        for( std::vector<Firework*>::iterator it = Fireworks.begin(); it != Fireworks.end(); ++it )
-        {
-            RectShape.setFillColor((*it)->getColor());
-            RectShape.setPosition((*it)->getPosition());
-            App.draw(RectShape);
+
+        for (std::vector<Firework*>::iterator it = fireworks.begin(); it != fireworks.end(); ++it) {
+            rect.setFillColor((*it)->getColor());
+
+            rect.setPosition((*it)->getPosition());
+
+            window.draw(rect);
         }
-        if(Polltimer.getElapsedTime().asMilliseconds() >= 50)
-        {
-            for( std::vector<Particle*>::iterator it = Particles.begin(); it != Particles.end();)
-            {
-                if(!(*it)->poll())
-                {
+
+        if (pollTimer.getElapsedTime().asMilliseconds() >= 50) {
+            for (std::vector<Particle*>::iterator it = particles.begin(); it != particles.end();) {
+                if((*it)->poll() == false) {
                     delete *it;
-                    it = Particles.erase(it);
+                    it = particles.erase(it);
                 }
 					 else
 						 ++it;
             }
 
-            for( std::vector<Firework*>::iterator it = Fireworks.begin(); it != Fireworks.end();)
-            {
-                if(!(*it)->poll())
-                {
-                    for(unsigned short int i = 0; i < 50; i++)
-                        Explosions.push_back(new Explosion((*it)->getPosition(),(*it)->getColor()));
+            for( std::vector<Firework*>::iterator it = fireworks.begin(); it != fireworks.end();) {
+                if((*it)->poll() == false) {
+                    for(int i = 0; i < 50; i++)
+                        explosions.push_back(new Explosion((*it)->getPosition(),(*it)->getColor()));
 
                     delete *it;
-                    it = Fireworks.erase(it);
+                    it = fireworks.erase(it);
                 }
 					 else
 						++it;
             }
-            for( std::vector<Explosion*>::iterator it = Explosions.begin(); it != Explosions.end();)
-            {
-                if(!(*it)->poll())
-                {
-                    Particles.push_back(new Particle((*it)->getPosition(),(*it)->getColor()));
+
+            for( std::vector<Explosion*>::iterator it = explosions.begin(); it != explosions.end();) {
+                if((*it)->poll() == false) {
+                    particles.push_back(new Particle((*it)->getPosition(),(*it)->getColor()));
                     delete *it;
-                    it = Explosions.erase(it);
+                    it = explosions.erase(it);
                 }
 					 else
 						 ++it;
             }
-            Polltimer.restart();
+
+            pollTimer.restart();
         }
-        App.display();
+
+        window.display();
     }
-    return EXIT_SUCCESS;
+
+    return 0;
 }

@@ -3,14 +3,14 @@
 Explosion::Explosion(sf::Vector2f pos, sf::Color col) {
     this->_position = pos;
 
-    if(rand() % 2) {
+    if (rand() % 2) {
         this->_velocity.x = rand() % 10;
     }
     else {
         this->_velocity.x = (rand() % 10) * (-1);
     }
         
-    if(rand() % 2) {
+    if (rand() % 2) {
         this->_velocity.y = rand() % 10;
     }
     else {
@@ -41,7 +41,7 @@ void Explosion::setColor(sf::Color col) {
 }
 
 bool Explosion::poll() {
-    if(this->_color.a - this->_alphaSub <= 0 || this->_tick >= 50) {
+    if (this->_color.a - this->_alphaSub <= 0 || this->_tick >= 50) {
         return false;
     }
         
@@ -49,7 +49,7 @@ bool Explosion::poll() {
 
     this->_color.a = this->_color.a - this->_alphaSub;
 
-    if(this->_color.a > 200) {
+    if (this->_color.a > 200) {
         this->_color.a = 200;
     }
         

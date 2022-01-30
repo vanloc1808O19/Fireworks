@@ -7,7 +7,7 @@ Firework::Firework(std::vector<Particle*> *p) {
 
     this->_velocity = sf::Vector2f(rand() % 5 + 1, (rand() % 8 + 3)*(-1));
 
-    if(this->_position.x >= 400) {
+    if (this->_position.x >= 400) {
         this->_velocity.x = this->_velocity.x * (-1);
     }
         
@@ -43,10 +43,11 @@ bool Firework::poll () {
         }
     }
           
-    if(this->_tick >= 50) {
+    if (this->_tick >= 50) {
         return false;
     }
 
     this->_tick++;
+
     return true;
 }
